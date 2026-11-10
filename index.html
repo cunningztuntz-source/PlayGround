@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#101622" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect width=%2240%22 height=%2240%22 fill=%22%23d7ff32%22/><text x=%2220%22 y=%2230%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2232%22 font-weight=%22900%22 fill=%22%2316202b%22>B</text></svg>" />
+  <title>Bam's Backyard — Skate Session</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <div id="game" aria-label="3D skate park game"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">B</span><div><div class="eyebrow">BAM MARGERA PRESENTS</div><div class="brand-title">BACKYARD <i>SESSION</i></div></div></div>
+      <div class="session-tag"><span class="live-dot"></span> FREE SKATE <span class="tag-divider">/</span> 01</div>
+    </header>
+    <section class="hud">
+      <div class="score-block"><div class="eyebrow">SESSION SCORE</div><div id="score" class="score">000000</div><div class="best-line">BEST <span id="best">000000</span></div></div>
+      <div class="timer-block"><div class="eyebrow">TIME LEFT</div><div id="timer" class="timer">2:00</div><div class="timer-track"><span id="timerFill"></span></div></div>
+      <div id="comboCard" class="combo-card"><div class="eyebrow">COMBO</div><div id="comboValue" class="combo-value">0</div><div id="comboName" class="combo-name">READY TO ROLL</div></div>
+    </section>
+    <div class="side-label">WEST CHESTER, PA <span>·</span> EST. 1981</div>
+    <div class="trick-pop" id="trickPop"><span id="trickName">OLLIE</span><b id="trickPoints">+100</b></div>
+    <aside class="controls-card" id="controlsCard">
+      <button class="close-help" id="closeHelp" aria-label="Close controls">×</button>
+      <div class="eyebrow">HOW TO PLAY</div>
+      <div class="control-row"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>Move around the park</span></div>
+      <div class="control-row"><kbd>SPACE</kbd><span>Ollie · hold to charge</span></div>
+      <div class="control-row"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><span>Tricks in the air</span></div>
+      <div class="control-row"><kbd>SHIFT</kbd><span>Manual · balance for points</span></div>
+      <div class="control-row"><kbd>R</kbd><span>Restart session</span></div>
+      <div class="help-foot">Link tricks before you land to build a bigger combo.</div>
+    </aside>
+    <div class="mini-hint" id="miniHint">WASD MOVE <span>·</span> SPACE OLLIE <button id="helpBtn">CONTROLS ?</button></div>
+    <div class="center-message" id="centerMessage"><div class="end-card"><div class="eyebrow">SESSION COMPLETE</div><h1>THAT'S A WRAP.</h1><p>Nice run. Bam would be proud.</p><div class="final-score" id="finalScore">000000</div><button id="playAgain">SKATE AGAIN <span>↗</span></button></div></div>
+    <div class="mobile-controls" aria-label="Touch controls">
+      <div class="dpad"><button data-key="w">▲</button><div><button data-key="a">◀</button><button data-key="s">▼</button><button data-key="d">▶</button></div></div>
+      <div class="action-pad"><button class="jump" data-key=" ">OLLIE</button><button data-key="1">FLIP</button><button data-key="shift">MANUAL</button></div>
+    </div>
+    <div class="loading" id="loading"><div class="loader-mark">B</div><span>WAXING THE CURB...</span></div>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
