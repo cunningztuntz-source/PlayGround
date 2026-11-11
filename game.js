@@ -59,26 +59,42 @@ for(let i=0;i<20;i++){const x=(i%5-2)*12+(Math.random()-.5)*3,z=-27-Math.floor(i
 const logo=new THREE.Group();const logoBase=new THREE.Mesh(new THREE.CircleGeometry(2.2,48),mat('#d7ff32'));logoBase.rotation.x=-Math.PI/2;logoBase.position.y=.012;logoBase.position.z=0;scene.add(logoBase);
 const logoText=document.createElement('canvas');logoText.width=512;logoText.height=192;const ctx=logoText.getContext('2d');ctx.clearRect(0,0,512,192);ctx.fillStyle='#192329';ctx.font='900 120px Impact, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('BAM',256,92);const tex=new THREE.CanvasTexture(logoText);tex.colorSpace=THREE.SRGBColorSpace;const decal=new THREE.Mesh(new THREE.PlaneGeometry(3.2,1.2),new THREE.MeshBasicMaterial({map:tex,transparent:true,side:THREE.DoubleSide,depthWrite:false}));decal.rotation.x=-Math.PI/2;decal.position.set(0,.025,0);scene.add(decal);
 
-// Rider and board
-const rider=new THREE.Group();scene.add(rider);const board=new THREE.Group();rider.add(board);
-const deck=new THREE.Mesh(new THREE.BoxGeometry(.42,.12,1.12),mat('#d95e32',.45));deck.position.y=.15;deck.castShadow=true;board.add(deck);
-const grip=new THREE.Mesh(new THREE.BoxGeometry(.35,.025,.91),black);grip.position.y=.22;board.add(grip);
-for(const z of [-.36,.36]){const truck=new THREE.Mesh(new THREE.BoxGeometry(.38,.07,.12),steel);truck.position.set(0,.09,z);board.add(truck);for(const x of [-.21,.21]){const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.105,.105,.08,16),mat('#e6d6ad',.55));wheel.rotation.z=Math.PI/2;wheel.position.set(x,.02,z);wheel.castShadow=true;board.add(wheel)}}
+// Rider and board — a detailed, skate-punk portrait of Bam.
+const rider=new THREE.Group();rider.scale.setScalar(1.2);scene.add(rider);const board=new THREE.Group();rider.add(board);
+const deck=new THREE.Mesh(new THREE.BoxGeometry(.44,.12,1.14),mat('#d95e32',.42));deck.position.y=.15;deck.castShadow=true;board.add(deck);
+const grip=new THREE.Mesh(new THREE.BoxGeometry(.37,.025,.93),black);grip.position.y=.22;board.add(grip);
+for(const z of [-.36,.36]){const truck=new THREE.Mesh(new THREE.BoxGeometry(.38,.07,.12),steel);truck.position.set(0,.09,z);board.add(truck);for(const x of [-.21,.21]){const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.105,.105,.08,20),mat('#e6d6ad',.48));wheel.rotation.z=Math.PI/2;wheel.position.set(x,.02,z);wheel.castShadow=true;board.add(wheel)}}
+// Hand-painted board graphic, visible around the grip tape.
+const deckArt=document.createElement('canvas');deckArt.width=256;deckArt.height=512;const da=deckArt.getContext('2d');da.fillStyle='#d95e32';da.fillRect(0,0,256,512);da.fillStyle='#f5dfb2';da.font='900 72px sans-serif';da.textAlign='center';da.fillText('BAM',128,250);da.strokeStyle='#20252a';da.lineWidth=12;da.beginPath();da.arc(128,275,74,0,Math.PI*2);da.stroke();da.fillStyle='#20252a';da.fillRect(115,262,12,16);da.fillRect(133,262,12,16);const deckTex=new THREE.CanvasTexture(deckArt);deckTex.colorSpace=THREE.SRGBColorSpace;const art=new THREE.Mesh(new THREE.PlaneGeometry(.31,.75),new THREE.MeshBasicMaterial({map:deckTex}));art.rotation.x=-Math.PI/2;art.position.set(0,.214,0);board.add(art);
 const body=new THREE.Group();body.position.y=.94;rider.add(body);
-function limb(parent, radius, length, material, pos){const m=new THREE.Mesh(new THREE.CylinderGeometry(radius*.82,radius,length,9),material);m.position.set(...pos);m.castShadow=true;parent.add(m);return m}
-const torso=new THREE.Mesh(new THREE.BoxGeometry(.57,.72,.32),shirt);torso.position.y=.16;torso.castShadow=true;body.add(torso);
-const head=new THREE.Mesh(new THREE.SphereGeometry(.24,16,12),skin);head.position.set(0,.7,0);head.castShadow=true;body.add(head);
-const hair=new THREE.Mesh(new THREE.SphereGeometry(.255,14,9,0,Math.PI*2,0,Math.PI*.65),black);hair.position.set(0,.76,-.015);hair.castShadow=true;body.add(hair);
-const band=new THREE.Mesh(new THREE.TorusGeometry(.24,.035,6,16),mat('#d7ff32'));band.position.set(0,.72,0);band.rotation.x=Math.PI/2;body.add(band);
-const armL=limb(body,.095,.56,shirt,[-.39,.2,0]),armR=limb(body,.095,.56,shirt,[.39,.2,0]);armL.rotation.z=-.42;armR.rotation.z=.42;
+function limb(parent, radius, length, material, pos){const m=new THREE.Mesh(new THREE.CylinderGeometry(radius*.82,radius,length,12),material);m.position.set(...pos);m.castShadow=true;parent.add(m);return m}
+const torso=new THREE.Mesh(new THREE.CapsuleGeometry(.285,.35,5,16),shirt);torso.position.y=.14;torso.castShadow=true;body.add(torso);
+// Shirt print: distressed skull badge and lettering.
+const shirtCanvas=document.createElement('canvas');shirtCanvas.width=256;shirtCanvas.height=320;const sc=shirtCanvas.getContext('2d');sc.clearRect(0,0,256,320);sc.fillStyle='#d7ff32';sc.font='900 54px sans-serif';sc.textAlign='center';sc.fillText('BAM',128,58);sc.strokeStyle='#d7ff32';sc.lineWidth=8;sc.beginPath();sc.arc(128,155,55,0,Math.PI*2);sc.stroke();sc.fillStyle='#d7ff32';sc.fillRect(96,135,20,25);sc.fillRect(140,135,20,25);sc.fillRect(104,205,48,13);sc.fillStyle='#e6e1d6';sc.font='bold 20px sans-serif';sc.fillText('HEART',128,265);const shirtTex=new THREE.CanvasTexture(shirtCanvas);shirtTex.colorSpace=THREE.SRGBColorSpace;const shirtPrint=new THREE.Mesh(new THREE.PlaneGeometry(.36,.49),new THREE.MeshBasicMaterial({map:shirtTex,transparent:true,side:THREE.DoubleSide}));shirtPrint.position.set(0,.18,-.294);body.add(shirtPrint);
+const head=new THREE.Mesh(new THREE.SphereGeometry(.245,28,20),skin);head.scale.set(1,.98,.92);head.position.set(0,.7,0);head.castShadow=true;body.add(head);
+// Ears, expressive blue eyes, brows, nose, and the signature goatee.
+for(const x of [-.235,.235]){const ear=new THREE.Mesh(new THREE.SphereGeometry(.065,14,10),skin);ear.scale.set(.55,1,.65);ear.position.set(x,.7,0);body.add(ear)}
+const eyeWhite=mat('#f3eee1',.35), iris=mat('#4b8290',.32), hairMat=mat('#211b1a',.72), beardMat=mat('#302524',.88), browMat=mat('#201b1a');
+for(const x of [-.09,.09]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.044,16,12),eyeWhite);eye.scale.set(1,.72,.45);eye.position.set(x,.735,-.205);body.add(eye);const pupil=new THREE.Mesh(new THREE.SphereGeometry(.021,12,10),iris);pupil.position.set(x,.735,-.226);body.add(pupil);const brow=new THREE.Mesh(new THREE.BoxGeometry(.09,.022,.035),browMat);brow.position.set(x,.802,-.198);brow.rotation.z=x<0?-.12:.12;body.add(brow)}
+const nose=new THREE.Mesh(new THREE.SphereGeometry(.045,12,10),skin);nose.scale.set(.78,.8,.75);nose.position.set(0,.675,-.23);body.add(nose);
+const mustache=new THREE.Mesh(new THREE.SphereGeometry(.075,14,10),beardMat);mustache.scale.set(1,.36,.45);mustache.position.set(0,.625,-.212);body.add(mustache);
+const goatee=new THREE.Mesh(new THREE.ConeGeometry(.075,.16,10),beardMat);goatee.position.set(0,.55,-.205);goatee.rotation.x=-.12;body.add(goatee);
+// Dark, swept-back hair with long separated locks; no generic helmet/cap.
+const hairCap=new THREE.Mesh(new THREE.SphereGeometry(.258,24,16,0,Math.PI*2,0,Math.PI*.43),hairMat);hairCap.position.set(0,.765,.035);hairCap.castShadow=true;body.add(hairCap);
+for(let i=0;i<9;i++){const x=(i-4)*.048;const lock=new THREE.Mesh(new THREE.ConeGeometry(.065,.38,10),hairMat);lock.position.set(x,.67,.19+Math.abs(x)*.15);lock.rotation.x=-.3;lock.rotation.z=x*1.1;lock.castShadow=true;body.add(lock)}
+for(const side of [-1,1]){for(let i=0;i<3;i++){const lock=new THREE.Mesh(new THREE.CapsuleGeometry(.045,.18,4,8),hairMat);lock.position.set(side*(.21+i*.006),.58-i*.13,.035+i*.045);lock.rotation.z=side*-.12;body.add(lock)}}
+const armL=limb(body,.105,.4,shirt,[-.39,.2,0]),armR=limb(body,.105,.4,shirt,[.39,.2,0]);armL.rotation.z=-.42;armR.rotation.z=.42;
 const foreL=limb(body,.075,.42,skin,[-.5,-.22,.04]),foreR=limb(body,.075,.42,skin,[.5,-.22,.04]);foreL.rotation.z=.25;foreR.rotation.z=-.25;
-const legL=limb(rider,.14,.56,pants,[-.17,.54,0]),legR=limb(rider,.14,.56,pants,[.17,.54,0]);
-for(const x of [-.17,.17]){const shoe=new THREE.Mesh(new THREE.BoxGeometry(.25,.13,.36),white);shoe.position.set(x,.23,.05);shoe.castShadow=true;rider.add(shoe)}
-const cap=new THREE.Mesh(new THREE.BoxGeometry(.3,.08,.28),orange);cap.position.set(0,1.74,.01);rider.add(cap);
+// Punk-style tattoo bands and ink marks on the forearms.
+for(const side of [-1,1]){for(let i=0;i<3;i++){const ink=new THREE.Mesh(new THREE.TorusGeometry(.067-i*.004,.007,5,16),browMat);ink.rotation.x=Math.PI/2;ink.position.set(side*(.5-i*.018),-.16-i*.085,.045);body.add(ink)}const wrist=new THREE.Mesh(new THREE.TorusGeometry(.076,.015,6,16),black);wrist.rotation.x=Math.PI/2;wrist.position.set(side*.51,-.435,.04);body.add(wrist)}
+const legL=limb(rider,.145,.58,pants,[-.17,.54,0]),legR=limb(rider,.145,.58,pants,[.17,.54,0]);
+for(const x of [-.17,.17]){const knee=new THREE.Mesh(new THREE.SphereGeometry(.145,14,10),pants);knee.position.set(x,.56,0);rider.add(knee);const shoe=new THREE.Mesh(new THREE.BoxGeometry(.27,.14,.38),white);shoe.position.set(x,.23,.05);shoe.castShadow=true;rider.add(shoe);const sole=new THREE.Mesh(new THREE.BoxGeometry(.275,.035,.385),black);sole.position.set(x,.17,.05);rider.add(sole)}
+// Bright green bandana detail at the crown, Bam's signature color.
+const band=new THREE.Mesh(new THREE.TorusGeometry(.22,.024,8,24),hairMat);band.position.set(0,.83,0);band.rotation.x=Math.PI/2;body.add(band);
 
 const ui={score:document.querySelector('#score'),best:document.querySelector('#best'),timer:document.querySelector('#timer'),fill:document.querySelector('#timerFill'),combo:document.querySelector('#comboValue'),comboName:document.querySelector('#comboName'),comboCard:document.querySelector('#comboCard'),pop:document.querySelector('#trickPop'),trickName:document.querySelector('#trickName'),trickPoints:document.querySelector('#trickPoints'),loading:document.querySelector('#loading'),center:document.querySelector('#centerMessage'),final:document.querySelector('#finalScore')};
 let best=Number(localStorage.getItem('bamBest')||0);ui.best.textContent=String(best).padStart(6,'0');
-const state={x:0,z:1,vx:0,vz:0,y:0,vy:0,groundY:0,facing:0,air:false,grinding:false,manual:false,manualTime:0,charge:0,spaceDown:false,airTime:0,trickStyle:0,score:0,combo:0,mult:1,comboTime:0,time:120,ended:false,bail:0,keys:new Set(),trickSequence:0,popTimer:0,clock:0};
+const state={x:0,z:1,vx:0,vz:0,y:0,vy:0,groundY:0,facing:Math.PI,air:false,grinding:false,manual:false,manualTime:0,charge:0,spaceDown:false,airTime:0,trickStyle:0,score:0,combo:0,mult:1,comboTime:0,time:120,ended:false,bail:0,keys:new Set(),trickSequence:0,popTimer:0,clock:0};
 const trickList=[['KICKFLIP',180],['POP SHOVE-IT',220],['INDY GRAB',250],['360 FLIP',380]];
 const format=n=>String(Math.floor(n)).padStart(6,'0');
 function showTrick(name,points){ui.trickName.textContent=name;ui.trickPoints.textContent='+'+Math.floor(points);ui.pop.classList.add('show');state.popTimer=.8}
@@ -91,11 +107,11 @@ function doOllie(){if(state.ended||state.air||state.bail>0)return;const power=.7
 function onKeyDown(e){let key=e.key.toLowerCase();if([' ','arrowup','arrowdown','arrowleft','arrowright'].includes(key))e.preventDefault();if(key===' '){if(!state.spaceDown){state.spaceDown=true;state.charge=0}return}if(state.keys.has(key))return;state.keys.add(key);if(key==='escape'){document.querySelector('#controlsCard').classList.toggle('hidden')}if(key==='r')reset();if(['1','2','3','4'].includes(key)&&state.air&&!state.ended){const [name,pts]=trickList[Number(key)-1];addCombo(name,pts);state.trickSequence++;state.trickStyle=Number(key)}if(key==='shift'&&!state.air){state.manual=true;state.manualTime=0;}}
 function onKeyUp(e){const key=e.key.toLowerCase();state.keys.delete(key);if(key===' '){state.spaceDown=false;doOllie()}if(key==='shift')state.manual=false}
 addEventListener('keydown',onKeyDown);addEventListener('keyup',onKeyUp);addEventListener('blur',()=>{state.keys.clear();state.spaceDown=false;state.manual=false});
-function reset(){state.x=0;state.z=1;state.vx=0;state.vz=0;state.y=0;state.vy=0;state.air=false;state.combo=0;state.mult=1;state.score=0;state.time=120;state.ended=false;state.bail=0;ui.score.textContent='000000';ui.timer.textContent='2:00';ui.fill.style.width='100%';ui.center.classList.remove('show');ui.comboCard.classList.remove('active');ui.combo.textContent='0';ui.comboName.textContent='READY TO ROLL';body.rotation.set(0,0,0);rider.position.set(0,0,1)}
+function reset(){state.x=0;state.z=1;state.vx=0;state.vz=0;state.y=0;state.vy=0;state.facing=Math.PI;state.air=false;state.combo=0;state.mult=1;state.score=0;state.time=120;state.ended=false;state.bail=0;ui.score.textContent='000000';ui.timer.textContent='2:00';ui.fill.style.width='100%';ui.center.classList.remove('show');ui.comboCard.classList.remove('active');ui.combo.textContent='0';ui.comboName.textContent='READY TO ROLL';body.rotation.set(0,0,0);rider.position.set(0,0,1)}
 document.querySelector('#closeHelp').onclick=()=>document.querySelector('#controlsCard').classList.add('hidden');document.querySelector('#helpBtn').onclick=()=>document.querySelector('#controlsCard').classList.toggle('hidden');document.querySelector('#playAgain').onclick=reset;
 for(const button of document.querySelectorAll('.mobile-controls button')){const key=button.dataset.key;const down=e=>{e.preventDefault();if(key==='shift'){state.manual=true;return}if(key===' '){if(!state.spaceDown){state.spaceDown=true;state.charge=0}return}state.keys.add(key);if(['1','2','3','4'].includes(key)&&state.air){const [name,pts]=trickList[Number(key)-1];addCombo(name,pts);state.trickStyle=Number(key);state.trickSequence++}};const up=e=>{e.preventDefault();if(key==='shift'){state.manual=false;return}if(key===' '){state.spaceDown=false;doOllie();return}state.keys.delete(key)};button.addEventListener('pointerdown',down);button.addEventListener('pointerup',up);button.addEventListener('pointercancel',up);button.addEventListener('pointerleave',up)}
 
-camera.position.set(0,10,14);camera.lookAt(0,0,0);
+camera.position.set(0,7.8,10.5);camera.lookAt(0,0,0);
 let last=performance.now();
 function update(now){requestAnimationFrame(update);const dt=Math.min(.035,(now-last)/1000);last=now;state.clock+=dt;if(!state.ended){state.time=Math.max(0,state.time-dt);if(state.time===0){state.ended=true;cashCombo();ui.final.textContent=format(state.score);ui.center.classList.add('show')}}
   if(state.popTimer>0){state.popTimer-=dt;if(state.popTimer<=0)ui.pop.classList.remove('show')}
@@ -109,7 +125,7 @@ function update(now){requestAnimationFrame(update);const dt=Math.min(.035,(now-l
   const targetFacing=Math.atan2(state.vx,-state.vz);if(speed>.25){let diff=THREE.MathUtils.euclideanModulo(targetFacing-state.facing+Math.PI,Math.PI*2)-Math.PI;state.facing+=diff*Math.min(1,dt*9)}
   rider.position.set(state.x,state.y,state.z);rider.rotation.y=state.facing+(state.air&&state.trickStyle===4?state.airTime*5:0);const at=state.airTime;board.rotation.x=state.air?(state.trickStyle===2?0:state.trickStyle===4?at*8:Math.sin(state.clock*11)*.08):0;board.rotation.y=state.air&&(state.trickStyle===2||state.trickStyle===4)?at*(state.trickStyle===2?10:7):0;board.rotation.z=state.air&&(state.trickStyle===1||state.trickStyle===4)?Math.sin(at*16)*.9:state.air?Math.sin(state.clock*14)*.09:0;body.position.y=.94+(state.air?Math.sin(state.clock*12)*.08:0);if(state.air)body.rotation.x=state.trickStyle===3?-.48:Math.sin(state.clock*10)*.2;
   // keep board and rider anchored to the ramp, lifting only on top of it
-  rider.position.y=state.y;const camTarget=new THREE.Vector3(state.x*.56,1.15+state.y*.35,state.z*.56);camera.position.lerp(new THREE.Vector3(state.x*.62,10.5+state.y*.45,state.z+14.5),1-Math.exp(-dt*2.7));camera.lookAt(camTarget);
+  rider.position.y=state.y;const camTarget=new THREE.Vector3(state.x*.56,1.15+state.y*.35,state.z*.56);camera.position.lerp(new THREE.Vector3(state.x*.62,7.8+state.y*.45,state.z+10.5),1-Math.exp(-dt*2.7));camera.lookAt(camTarget);
   ui.timer.textContent=`${Math.floor(state.time/60)}:${String(Math.floor(state.time%60)).padStart(2,'0')}`;ui.fill.style.width=`${state.time/120*100}%`;if(state.time<20)ui.fill.style.background='#ff704d';
   renderer.render(scene,camera);
 }
